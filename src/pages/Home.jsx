@@ -8,9 +8,11 @@ function Home() {
   const { workouts, dispatch } = useWorkoutsContext();
 
   useEffect(() => {
-    Axios.get("/api/workouts").then((response) => {
-      dispatch({ type: "SET_WORKOUTS", payload: response.data });
-    });
+    Axios.get("https://mernapp-render-be.onrender.com/api/workouts").then(
+      (response) => {
+        dispatch({ type: "SET_WORKOUTS", payload: response.data });
+      }
+    );
   }, [dispatch]);
 
   return (

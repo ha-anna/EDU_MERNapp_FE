@@ -6,7 +6,9 @@ import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 function WorkoutDetails({ workout }) {
   const { dispatch } = useWorkoutsContext();
   const handleClick = async () => {
-    await Axios.delete("/api/workouts/" + workout._id)
+    await Axios.delete(
+      "https://mernapp-render-be.onrender.com/api/workouts/" + workout._id
+    )
       .then((response) => {
         dispatch({ type: "DELETE_WORKOUT", payload: response.data });
       })
