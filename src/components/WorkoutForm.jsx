@@ -15,7 +15,7 @@ function WorkoutForm() {
 
     const workout = { title, reps, load };
 
-    Axios.post("https://mernapp-render-be.onrender.com/api/workouts", workout)
+    Axios.post("https://famous-elk-polo-shirt.cyclic.app/api/workouts", workout)
       .then((response) => {
         setError(null);
         setEmptyFields([]);
