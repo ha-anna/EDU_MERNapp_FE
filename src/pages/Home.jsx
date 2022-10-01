@@ -8,7 +8,7 @@ function Home() {
   const { workouts, dispatch } = useWorkoutsContext();
 
   useEffect(() => {
-    Axios.get("https://famous-elk-polo-shirt.cyclic.app/api/workouts").then(
+    Axios.get("https://mernapp-render-be.onrender.com/api/workouts").then(
       (response) => {
         dispatch({ type: "SET_WORKOUTS", payload: response.data });
       }

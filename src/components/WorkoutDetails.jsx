@@ -7,7 +7,7 @@ function WorkoutDetails({ workout }) {
   const { dispatch } = useWorkoutsContext();
   const handleClick = async () => {
     await Axios.delete(
-      "https://famous-elk-polo-shirt.cyclic.app/api/workouts/" + workout._id
+      "https://mernapp-render-be.onrender.com/api/workouts/" + workout._id
     )
       .then((response) => {
         dispatch({ type: "DELETE_WORKOUT", payload: response.data });
