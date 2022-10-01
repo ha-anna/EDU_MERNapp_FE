@@ -13,7 +13,7 @@ app.use((req, res, next) => {
 app.use('/api/workouts', workoutsRoutes)
 
 mongoose.connect(process.env.MONGO_URI).then(() => {
-      app.listen(process.env.$PORT, () => {
+      app.listen(process.env.PORT, () => {
       console.log('connected to db and listening on port 4000')
         })
     })
