@@ -8,13 +8,13 @@ dns.setDefaultResultOrder('verbatim')
 export default defineConfig({
   server: {
   port: 3000,
-  proxy: {
-      "/api": {
-        target: "0.0.0.0:$PORT",
-        changeOrigin: true,
-        secure: false,
-      },
-    },
+  // proxy: {
+  //     "/api": {
+  //       target: "0.0.0.0:$PORT",
+  //       changeOrigin: true,
+  //       secure: false,
+  //     },
+  //   },
 },
   plugins: [react()],
 })
