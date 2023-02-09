@@ -7,7 +7,8 @@ function WorkoutDetails({ workout }) {
   const { dispatch } = useWorkoutsContext();
   const handleClick = async () => {
     await Axios.delete(
-      "https://mernapp-render-be.onrender.com/api/workouts/" + workout._id
+      "https://mernapprenderbe-production.up.railway.app/api/workouts/" +
+        workout._id
     )
       .then((response) => {
         dispatch({ type: "DELETE_WORKOUT", payload: response.data });
