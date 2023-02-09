@@ -1,17 +1,17 @@
 import React, { useState } from "react";
 import { useAuthContext } from "./useAuthContext";
 
-export function useSignup() {
+export function useLogin() {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(null);
   const { dispatch } = useAuthContext();
 
-  const signup = async (email, password) => {
+  const login = async (email, password) => {
     setIsLoading(true);
     setError(null);
 
     const response = await fetch(
-      "https://mernapp-render-be.onrender.com/api/user/signup/",
+      "https://mernapp-render-be.onrender.com/api/user/login/",
       {
         method: "POST",
         headers: { "Content-Type": "application/json" },
@@ -36,5 +36,5 @@ export function useSignup() {
     }
   };
 
-  return { signup, isLoading, error };
+  return { login, isLoading, error };
 }

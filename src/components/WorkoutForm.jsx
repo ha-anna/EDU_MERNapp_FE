@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
 import Axios from "axios";
+import { useAuthContext } from "../hooks/useAuthContext";
 
 function WorkoutForm() {
   const { dispatch } = useWorkoutsContext();
@@ -9,25 +10,36 @@ function WorkoutForm() {
   const [load, setLoad] = useState("");
   const [error, setError] = useState(null);
   const [emptyFields, setEmptyFields] = useState([]);
+  const { user } = useAuthContext();
 
   const handleSubmit = async (event) => {
     event.preventDefault();
 
     const workout = { title, reps, load };
 
-    Axios.post("https://mernapp-render-be.onrender.com/api/workouts", workout)
-      .then((response) => {
-        setError(null);
-        setEmptyFields([]);
-        setTitle("");
-        setReps("");
-        setLoad("");
-        dispatch({ type: "CREATE_WORKOUT", payload: response.data });
-      })
-      .catch((error) => {
-        setEmptyFields(error.response.data.emptyFields);
-        setError(error.response.data.error);
-      });
+    if (user) {
+      Axios.post(
+        "https://mernapp-render-be.onrender.com/api/workouts",
+        workout,
+        {
+          headers: { Authorization: `Bearer ${user.token}` },
+        }
+      )
+        .then((response) => {
+          setError(null);
+          setEmptyFields([]);
+          setTitle("");
+          setReps("");
+          setLoad("");
+          dispatch({ type: "CREATE_WORKOUT", payload: response.data });
+        })
+        .catch((error) => {
+          setEmptyFields(error.response.data.emptyFields);
+          setError(error.response.data.error);
+        });
+    } else {
+      setError("You must be logged in!");
+    }
   };
 
   return (
