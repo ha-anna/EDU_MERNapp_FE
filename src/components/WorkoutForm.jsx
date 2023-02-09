@@ -1,6 +1,5 @@
 import React, { useState } from "react";
 import { useWorkoutsContext } from "../hooks/useWorkoutsContext";
-import Axios from "axios";
 import { useAuthContext } from "../hooks/useAuthContext";
 
 function WorkoutForm() {
@@ -12,33 +11,40 @@ function WorkoutForm() {
   const [emptyFields, setEmptyFields] = useState([]);
   const { user } = useAuthContext();
 
-  const handleSubmit = async (event) => {
-    event.preventDefault();
+  const handleSubmit = async (e) => {
+    e.preventDefault();
 
-    const workout = { title, reps, load };
+    if (!user) {
+      setError("You must be logged in");
+      return;
+    }
 
-    if (user) {
-      Axios.post(
-        "https://mernapp-render-be.onrender.com/api/workouts",
-        workout,
-        {
-          headers: { Authorization: `Bearer ${user.token}` },
-        }
-      )
-        .then((response) => {
-          setError(null);
-          setEmptyFields([]);
-          setTitle("");
-          setReps("");
-          setLoad("");
-          dispatch({ type: "CREATE_WORKOUT", payload: response.data });
-        })
-        .catch((error) => {
-          setEmptyFields(error.response.data.emptyFields);
-          setError(error.response.data.error);
-        });
-    } else {
-      setError("You must be logged in!");
+    const workout = { title, load, reps };
+
+    const response = await fetch(
+      "https://mernapp-render-be.onrender.com/api/workouts",
+      {
+        method: "POST",
+        body: JSON.stringify(workout),
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${user.token}`,
+        },
+      }
+    );
+    const json = await response.json();
+
+    if (!response.ok) {
+      setError(json.error);
+      setEmptyFields(json.emptyFields);
+    }
+    if (response.ok) {
+      setTitle("");
+      setLoad("");
+      setReps("");
+      setError(null);
+      setEmptyFields([]);
+      dispatch({ type: "CREATE_WORKOUT", payload: json });
     }
   };
 
@@ -52,7 +58,7 @@ function WorkoutForm() {
         name="title"
         onChange={(e) => setTitle(e.target.value)}
         value={title}
-        className={emptyFields.includes("title") ? "error" : ""}
+        // className={emptyFields.includes("title") ? "error" : ""}
       />
       <label>Reps:</label>
       <input
@@ -60,7 +66,7 @@ function WorkoutForm() {
         name="reps"
         onChange={(e) => setReps(e.target.value)}
         value={reps}
-        className={emptyFields.includes("reps") ? "error" : ""}
+        // className={emptyFields.includes("reps") ? "error" : ""}
       />
       <label>Load (in kg):</label>
       <input
@@ -68,7 +74,7 @@ function WorkoutForm() {
         name="load"
         onChange={(e) => setLoad(e.target.value)}
         value={load}
-        className={emptyFields.includes("load") ? "error" : ""}
+        // className={emptyFields.includes("load") ? "error" : ""}
       />
       <button>Add Workout</button>
       {error && <div className="error">{error}</div>}
