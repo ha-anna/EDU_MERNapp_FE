@@ -35,7 +35,7 @@ This is the frontend code for a MERN app called Workout Buddy. Based on a tutori
   
 ### What I learned
 
-How to build MERN app that uses MongoDB, has sign up and login, and uses authentication.
+How to build MERN app that uses MongoDB, has sign up and login, and uses authentication. Deployed and hosted on Render and Vercel.
 
 ## Author
 
